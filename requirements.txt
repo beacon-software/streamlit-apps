@@ -1,0 +1,13 @@
+langchain
+transformers
+torch
+tensorflow
+sentence_transformers
+chromadb
+requests
+unidiff
+openai
+tiktoken
+streamlit
+PyGithub
+python-dotenv
