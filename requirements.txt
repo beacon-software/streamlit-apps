@@ -11,3 +11,7 @@ tiktoken
 streamlit
 PyGithub
 python-dotenv
+ipykernel
+toml
+networkx
+pydbantic[sqlite]

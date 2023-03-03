@@ -6,12 +6,10 @@ from github import Github, PullRequest, File
 from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 
-st.header("Weekly Report")
+st.header("Beacon > Codebase Analysis")
+st.subheader("Kimley-Horn/SigOpsMetrics")
 
 openai_token = st.secrets["openai_token"]
-
-with st.sidebar:
-    st.title("Beacon")
 
 @st.cache_data
 def get_pull_requests():
@@ -43,9 +41,10 @@ for pull in get_pull_requests():
 
 llm = OpenAI(temperature=0.2, openai_api_key=openai_token)
 
+input = st.text_input("Enter a question", value="How many pull requests were submitted by each engineer?")
 
 @st.cache_data
-def get_llm_response(data, task):
+def get_llm_response(data, question):
     prompt = f"""
 
     Act as an engineering manager explaining progress to a non-technical stakeholder.
@@ -55,8 +54,17 @@ def get_llm_response(data, task):
 
     {data}
 
-    Your task in the following:
-    {task}
+    Your task is to answer the following question:
+    {question}
+
+    Please deliver your response in two distinct sections.
+
+    The first section should have the title of [Answer] and should contain the answer to the question.
+    If the answer can be presented in a table, please return a markdown table.
+    If the answer can be presented in a list, please return a markdown list.
+    If you don't know the answer, please return "I don't know".
+
+    The second section should have the title of [Explanation] and should contain a brief explanation of how you arrived at your answer.
     """
     return llm(prompt)
 
@@ -68,20 +76,15 @@ def q_and_a(question):
         question
     ))
 
-q_and_a("""
-For each engineer, write up a brief summary of their contributions for the week.
+q_and_a(input)
+# q_and_a("""
+# How many pull requests were submitted by each engineer?
 
-Return the results in a markdown table. 
-""")
+# Return the results in a markdown table. 
+# """)
 
-q_and_a("""
-How many pull requests were submitted by each engineer?
+# q_and_a("""
+# How long was the average time to merge a pull request for each engineer?
 
-Return the results in a markdown table. 
-""")
-
-q_and_a("""
-How long was the average time to merge a pull request for each engineer?
-
-Return the results in a markdown table.
-""")
+# Return the results in a markdown table.
+# """)
