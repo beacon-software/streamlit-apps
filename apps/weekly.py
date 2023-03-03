@@ -10,10 +10,11 @@ st.header("Beacon > Codebase Analysis")
 st.subheader("Kimley-Horn/SigOpsMetrics")
 
 openai_token = st.secrets["openai_token"]
+github_token = st.secrets["github_token"]
 
 @st.cache_data
 def get_pull_requests():
-    g = Github()
+    g = Github(login_or_token=github_token)
     repo = g.get_repo("KimleyHorn/SigOpsMetrics")
     pulls = repo.get_pulls(state="closed")
     return [{
@@ -57,14 +58,9 @@ def get_llm_response(data, question):
     Your task is to answer the following question:
     {question}
 
-    Please deliver your response in two distinct sections.
-
-    The first section should have the title of [Answer] and should contain the answer to the question.
     If the answer can be presented in a table, please return a markdown table.
     If the answer can be presented in a list, please return a markdown list.
     If you don't know the answer, please return "I don't know".
-
-    The second section should have the title of [Explanation] and should contain a brief explanation of how you arrived at your answer.
     """
     return llm(prompt)
 
