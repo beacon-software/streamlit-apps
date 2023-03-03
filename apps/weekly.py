@@ -108,11 +108,16 @@ def on_input_change():
 
 def on_button_click(response):
     st.session_state.question = response
+    on_input_change()
+
+def on_remove_click(response):
+    st.session_state.previous_questions.remove(response)
 
 with st.sidebar:
     st.title("Previous Questions")
     for response in reversed(st.session_state.previous_questions):
         st.button(label=response, key=f"prev-{response}", on_click=on_button_click, args=(response,))
+        st.button(label="Remove", key=f"remove-{response}", on_click=on_remove_click, args=(response,))
 
     st.title("Recommended Questions")
     for question in get_recommended_questions(pr_data, st.session_state.question):
