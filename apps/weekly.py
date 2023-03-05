@@ -28,6 +28,7 @@ def get_pull_requests():
     repo = g.get_repo("KimleyHorn/SigOpsMetrics")
     pulls = repo.get_pulls(state="closed")
     return [{
+        "number": pull.number,
         "title": pull.title,
         "body": pull.body,
         "author": pull.user.login,

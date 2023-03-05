@@ -15,3 +15,5 @@ ipykernel
 toml
 networkx
 pydbantic[sqlite]
+psycopg2-binary
+peewee
