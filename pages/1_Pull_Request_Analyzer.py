@@ -5,6 +5,8 @@ from github import Github, PullRequest, File
 
 from langchain.llms import OpenAIChat
 
+st.set_page_config("Pull Requests")
+
 openai_token = st.secrets["openai_token"]
 github_token = st.secrets["github_token"]
 st.session_state["repository"] = "KimleyHorn/SigOpsMetrics"
